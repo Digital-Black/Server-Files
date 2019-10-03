@@ -1,0 +1,189 @@
+//This code is for setting up the server
+var express=require("express");
+var http=require("http");
+var app=express();
+//this code is for running the server
+http.createServer(app).listen(55555);
+console.log('SERVER ONLINE AND LISTENING ON PORT 55555');
+// This is the model, the data storage
+var sites = [
+	{ id: 0, name: 'DUBAI INSTALLATION', description: 'STAFF: 484', number: 026 },
+	{ id: 1, name: 'LONDON INSTALLATION', description: 'STAFF: 391', number: 014 },
+	{ id: 2, name: 'SINGAPORE INSTALLATION', description: 'STAFF: 514', number: 019 },
+];
+// http://localhost:55555	// general route
+// This is the view
+app.get("/", function(req,res){
+	var msg=""
+	msg += "<center><h1> MAIN </h1></center>"
+	msg += " DIRECTORY: <br />"
+	msg += " http://localhost:55555/hello <br />"	// Initial page once log-in succeeds
+	msg += " http://localhost:55555/goodbye <br />"	// Final page once log-out succeeds
+	msg += " http://localhost:55555/sites <br />"	// First of two pages containing site information
+	msg += " http://localhost:55555/sites/2 <br />"	// Second of two pages containing site information
+	res.send(msg);
+});
+// Routes = controller
+// http://localhost:55555/hello		// welcome route
+app.get("/hello", function(req,res){
+	res.send("LOG-IN SUCCESSFUL.");
+});
+// http://localhost:55555/goodbye	// goodbye route
+app.get("/goodbye", function(req,res){
+	res.send("LOG-OUT SUCCESSFUL.");
+});
+// http://localhost:55555/sites	// loads and displays first of two site groups
+app.get('/sites', function(req, res){
+	res.send(JSON.stringify(sites));
+});
+// http://localhost:55555/sites/2	// load and display second of two site groups
+app.get('/sites/:id', function(req, res) {
+	if (req.params.id > (sites.length - 1) || req.params.id < 0) {
+		res.statusCode = 404;
+		res.end('NOT FOUND');
+	}
+	res.send(JSON.stringify(sites[req.params.id]));
+});
+
+
+
+
+console.log("Hello, class from ENTD261 Node.js console")
+
+
+
+
+console.log(process.argv);
+
+if (process.argv.length <= 2) {
+	console.log("Usage: " + " SOME_PARAM");
+	process.exit(-1);
+}
+
+console.log('Params: ' + process.argv.length);
+console.log('University: ' + process.argv[2]);
+console.log('Class: ' + process.argv[3]);
+
+
+
+
+
+var fs = require('fs');
+if (process.argv.length <= 2) {
+	console.log("Usage: " + __filename + " path/to/directory");
+	process.exit(-1);
+}
+var path = process.argv[2];
+fs.readdir(path, function(err, items) {
+	console.log(items);
+	for (var i=0; i<items.length; i++) {
+		console.log(items[i]);
+	}
+})
+
+
+
+
+//This code is for setting up the server
+var express=require("express");
+var http=require("http");
+var app=express();
+//this code is for running the server
+http.createServer(app).listen(55555);
+console.log('Express server listening on port 55555');
+// This is the model, the data storage
+var products = [
+	{ id: 0, name: 'watch', description: 'Tell me with this amazing watch', price: 30.00 },
+	{ id: 1, name: 'sandals', description: 'Walk in comfort with these sandals', price: 10.00 },
+	{ id: 2, name: 'sunglasses', description: 'Protect your eyes in style', price: 25.00 },
+];
+// http://localhost:55555	// general route
+// This is the view
+app.get("/", function(req,res){
+	var msg=""
+	msg += "<center><h1> This is the default page </h1></center>"
+	msg += " use the following <br />"
+	msg += " http://localhost:55555/hello <br />"
+	msg += " http://localhost:55555/goodbye <br />"
+	msg += " http://localhost:55555/products <br />"
+	msg += " http://localhost:55555/products/2 <br />"
+	res.send(msg);
+});
+// Routes = controller
+// http://localhost:55555/hello		// welcome route
+app.get("/hello", function(req,res){
+	res.send("Hello ENTD261 class");
+});
+// http://localhost:55555/goodbye	// goodbye route
+app.get("/goodbye", function(req,res){
+	res.send("Thank you ENTD261 class");
+});
+// http://localhost:55555/products	// loads and displays all products
+app.get('/products', function(req, res){
+	res.send(JSON.stringify(products));
+});
+// http://localhost:55555/products/2	// load and display product id 2
+app.get('/products/:id', function(req, res) {
+	if (req.params.id > (products.length - 1) || req.params.id < 0) {
+		res.statusCode = 404;
+		res.end('Not Found');
+	}
+	res.send(JSON.stringify(products[req.params.id]));
+});
+
+
+
+
+
+var fs = require('fs');
+filename = process.argv[2]
+fs.readFile(filename, 'utf8', function(err, contents) {
+	console.log(contents);
+});
+console.log('after calling readFile');
+
+
+
+
+
+var fs = require('fs');
+filename = process.argv[2]
+var fs = require('fs');
+var contents = fs.readFileSync(filename, 'utf8');
+console.log(contents)
+console.log('after calling readFile');
+
+
+
+
+
+var fs = require('fs');
+if (process.argv.length <= 2) {
+	console.log("Usage: " + __filename + " path/to");
+	process.exit(-1);
+}
+var path = process.argv[2];
+fs.stat(path, function(err, stats) {
+	console.log(path);
+	console.log();
+	console.log(stats);
+	console.log();
+	if (stats.isFile()) {
+		console.log('    file');
+	}
+	if (stats.isDirectory()) {
+		console.log('    directory');
+	}
+	console.log('    size:           ' + stats["mode"]);
+	console.log('    mode:           ' + stats["mode"]);
+	console.log('    others eXecute: ' + (stats["mode"] & 1 ? 'x' : '-'));
+	console.log('    others Write:   ' + (stats["mode"] & 2 ? 'w' : '-'));
+	console.log('    others Read:    ' + (stats["mode"] & 4 ? 'r' : '-'));
+	console.log('    group eXecute:  ' + (stats["mode"] & 10 ? 'x' : '-'));
+	console.log('    group Write:    ' + (stats["mode"] & 20 ? 'w' : '-'));
+	console.log('    group Read:     ' + (stats["mode"] & 40 ? 'r' : '-'));
+	console.log('    owner eXecute:  ' + (stats["mode"] & 100 ? 'x' : '-'));
+	console.log('    owner Write:    ' + (stats["mode"] & 200 ? 'w' : '-'));
+	console.log('    owner Read:     ' + (stats["mode"] & 400 ? 'r' : '-'));
+	console.log('    file:           ' + (stats["mode"] & 0100000 ? 'f' : '-'));
+	console.log('    directory:      ' + (stats["mode"] & 0040000 ? 'd' : '-'));
