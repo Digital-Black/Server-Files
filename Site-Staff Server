@@ -1,0 +1,46 @@
+//This code is for setting up the server
+var express=require("express");
+var http=require("http");
+var app=express();
+//this code is for running the server
+http.createServer(app).listen(55555);
+console.log('SERVER ONLINE AND LISTENING ON PORT 55555');
+// This is the model, the data storage
+var sites = [
+	{ id: 0, name: 'DUBAI INSTALLATION', description: 'STAFF: 484', number: 026 },
+	{ id: 1, name: 'LONDON INSTALLATION', description: 'STAFF: 391', number: 014 },
+	{ id: 2, name: 'SINGAPORE INSTALLATION', description: 'STAFF: 514', number: 019 },
+];
+// http://localhost:55555	// general route
+// This is the view
+app.get("/", function(req,res){
+	var msg=""
+	msg += "<center><h1> MAIN </h1></center>"
+	msg += " DIRECTORY: <br />"
+	msg += " http://localhost:55555/hello <br />"	// Initial page once log-in succeeds
+	msg += " http://localhost:55555/goodbye <br />"	// Final page once log-out succeeds
+	msg += " http://localhost:55555/sites <br />"	// First of two pages containing site information
+	msg += " http://localhost:55555/sites/2 <br />"	// Second of two pages containing site information
+	res.send(msg);
+});
+// Routes = controller
+// http://localhost:55555/hello		// welcome route
+app.get("/hello", function(req,res){
+	res.send("LOG-IN SUCCESSFUL.");
+});
+// http://localhost:55555/goodbye	// goodbye route
+app.get("/goodbye", function(req,res){
+	res.send("LOG-OUT SUCCESSFUL.");
+});
+// http://localhost:55555/sites	// loads and displays first of two site groups
+app.get('/sites', function(req, res){
+	res.send(JSON.stringify(sites));
+});
+// http://localhost:55555/sites/2	// load and display second of two site groups
+app.get('/sites/:id', function(req, res) {
+	if (req.params.id > (sites.length - 1) || req.params.id < 0) {
+		res.statusCode = 404;
+		res.end('NOT FOUND');
+	}
+	res.send(JSON.stringify(sites[req.params.id]));
+});
